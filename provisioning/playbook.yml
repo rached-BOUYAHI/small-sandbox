@@ -1,0 +1,57 @@
+
+- name: disable qxl
+  hosts:
+    - routers
+    - hosts
+  gather_facts: yes
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: disable qxl
+      include_role:
+        name: disable-qxl
+      when: ansible_os_family == 'Debian'
+
+- name: setup hosts
+  hosts:
+    - routers
+    - hosts
+  gather_facts: no
+  become: yes
+  become_user: root
+  roles:
+    - role: sandbox-logging-forward
+      slf_destination: "{{ hostvars['man'].ansible_host }}"
+      slf_sandbox_name: "{{ kypo_global_sandbox_name }}"
+      slf_pool_id: "{{ kypo_global_pool_id }}"
+      slf_sandbox_id: "{{ kypo_global_sandbox_id }}"
+    - role: sandbox-logging-bash
+
+- name: user access
+  hosts:
+    - user_accessible_nodes
+  gather_facts: no
+  become: yes
+  become_user: root
+  roles:
+    - role: kypo-user-access
+      kypo_user_access_password: 'kypo'
+
+- name: hosts aliases
+  hosts:
+    - user_accessible_nodes
+  gather_facts: no
+  become: yes
+  become_user: root
+
+  pre_tasks:
+    - set_fact:
+        user_accessible_nodes_without_hidden: '{{ groups.user_accessible_nodes | difference(groups.hidden_hosts) }}'
+    - set_fact:
+        user_accessible_hostvars: '{{ hostvars | dict2items | selectattr("key", "in", user_accessible_nodes_without_hidden) | map(attribute="value") }}'
+
+  roles:
+    - role: hosts-aliases
+      hosts_aliases_nodes_ip: '{{ user_accessible_hostvars | items2dict(key_name="inventory_hostname", value_name="user_network_ip") }}'
+
