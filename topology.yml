@@ -1,4 +1,4 @@
-name: small-sandbox
+name: minimal-sandbox
 
 hosts:
   - name: server
@@ -6,49 +6,14 @@ hosts:
       image: debian-12-x86_64
       man_user: debian
     flavor: m1.tiny
-    hidden: true
-
-  - name: home
-    base_box:
-      image: debian-12-x86_64
-      man_user: debian
-    flavor: m1.tiny
-
-routers:
-  - name: server-router
-    base_box:
-      image: cirros
-    flavor: m1.tiny
-
-  - name: home-router
-    base_box:
-      image: cirros
-    flavor: m1.tiny
 
 networks:
   - name: server-switch
     cidr: 10.10.20.0/24
-    accessible_by_user: false
-
-  - name: home-switch
-    cidr: 10.10.30.0/24
 
 net_mappings:
   - host: server
     network: server-switch
     ip: 10.10.20.5
-
-  - host: home
-    network: home-switch
-    ip: 10.10.30.5
-
-router_mappings:
-  - router: server-router
-    network: server-switch
-    ip: 10.10.20.1
-
-  - router: home-router
-    network: home-switch
-    ip: 10.10.30.1
 
 groups: []
