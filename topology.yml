@@ -5,27 +5,27 @@ hosts:
     base_box:
       image: debian-9-x86_64
       man_user: debian
-    flavor: csirtmu.tiny1x2
+    flavor: m1.tiny
     hidden: True
 
   - name: home
     base_box:
       image: debian-9-x86_64
       man_user: debian
-    flavor: csirtmu.small2x8
+    flavor: m1.small
 
 routers:
   - name: server-router
     base_box:
       image: debian-9-x86_64
       man_user: debian
-    flavor: csirtmu.tiny1x2
+    flavor: m1.tiny
 
   - name: home-router
     base_box:
       image: debian-9-x86_64
       man_user: debian
-    flavor: csirtmu.tiny1x2
+    flavor: m1.tiny
 
 networks:
   - name: server-switch
