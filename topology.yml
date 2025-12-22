@@ -1,6 +1,18 @@
-name: minimal-sandbox
+name: small-sandbox
 
 hosts:
+  - name: man
+    base_box:
+      image: debian-12-x86_64
+      man_user: debian
+    flavor: m1.tiny
+
+  - name: home
+    base_box:
+      image: debian-12-x86_64
+      man_user: debian
+    flavor: m1.tiny
+
   - name: server
     base_box:
       image: debian-12-x86_64
@@ -8,12 +20,20 @@ hosts:
     flavor: m1.tiny
 
 networks:
-  - name: server-switch
+  - name: lab-net
     cidr: 10.10.20.0/24
 
 net_mappings:
+  - host: man
+    network: lab-net
+    ip: 10.10.20.10
+
+  - host: home
+    network: lab-net
+    ip: 10.10.20.20
+
   - host: server
-    network: server-switch
-    ip: 10.10.20.5
+    network: lab-net
+    ip: 10.10.20.30
 
 groups: []
