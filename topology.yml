@@ -3,27 +3,27 @@ name: small-sandbox
 hosts:
   - name: server
     base_box:
-      image: debian-9-x86_64
+      image: debian-12-x86_64
       man_user: debian
     flavor: m1.tiny
     hidden: True
 
   - name: home
     base_box:
-      image: debian-9-x86_64
+      image: debian-12-x86_64
       man_user: debian
     flavor: m1.small
 
 routers:
   - name: server-router
     base_box:
-      image: debian-9-x86_64
+      image: debian-12-x86_64
       man_user: debian
     flavor: m1.tiny
 
   - name: home-router
     base_box:
-      image: debian-9-x86_64
+      image: debian-12-x86_64
       man_user: debian
     flavor: m1.tiny
 
