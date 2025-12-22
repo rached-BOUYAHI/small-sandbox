@@ -12,7 +12,7 @@ hosts:
     base_box:
       image: debian-12-x86_64
       man_user: debian
-    flavor: m1.small
+    flavor: m1.tiny
 
 routers:
   - name: server-router
